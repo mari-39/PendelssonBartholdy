@@ -15,13 +15,13 @@ import java.util.ArrayList;
 
 // render the Positions of the Particles
 public class Felix extends Application {
-    static Canvas canvas = new Canvas(300, 300);
+    static Canvas canvas = new Canvas(600, 600);
 
     public static void render(ArrayList<Vector> input) {
         GraphicsContext contxt = canvas.getGraphicsContext2D();
-        contxt.clearRect(0, 0, 300, 300);
+        contxt.clearRect(0, 0, 600, 600);
         contxt.setFill(Color.BLUE);
-        int rad = 10;
+        int rad = 30;
         for (int i = 0; i < input.size(); i++) {
             contxt.fillOval(input.get(i).x, input.get(i).y, rad / 2, rad / 2);
         }
@@ -35,7 +35,7 @@ public class Felix extends Application {
     // make GUI and render Positions of Particles from ArrayList<Vector> arrlist
     @Override
     public void start(Stage stage) throws Exception {
-        stage.setScene(new Scene(createContent(), 300, 300));
+        stage.setScene(new Scene(createContent(), 600, 600));
         stage.show();
         Physics.makep1();
         Physics.makep2();

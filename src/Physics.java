@@ -11,7 +11,7 @@ public class Physics {
     public static void makep1() {
         Particle p1 = new Particle();
         p1.mass = 90000F;
-        p1.posn = new Vector(70, 70);
+        p1.posn = new Vector(300, 70);
         p1.oldPosn = p1.posn;
         p.add(p1);
     }
@@ -19,7 +19,7 @@ public class Physics {
     public static void makep2() {
         Particle p2 = new Particle();
         p2.mass = 1F;
-        p2.posn = new Vector(95, 70);
+        p2.posn = new Vector(325, 70);
         p2.oldPosn = p2.posn;
         DistanceConstraint dc = new DistanceConstraint(p.get(0), p2,
                 Vector.dist_betr(p.get(0).posn, p2.posn));
@@ -30,7 +30,7 @@ public class Physics {
     public static void makep3() {
         Particle p3 = new Particle();
         p3.mass = 1F;
-        p3.posn = new Vector(91, 120);
+        p3.posn = new Vector(321, 120);
         p3.oldPosn = p3.posn;
         DistanceConstraint dc2 = new DistanceConstraint(p.get(0), p3,
                 Vector.dist_betr(p.get(0).posn, p3.posn));
