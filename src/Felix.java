@@ -36,14 +36,16 @@ public class Felix extends Application {
     public void start(Stage stage) throws Exception {
         stage.setScene(new Scene(createContent(), 300, 300));
         stage.show(); // open window
-        ArrayList<Vector> arrlist = new ArrayList<Vector>();
-        arrlist.add(new Vector(70, 50));
-        arrlist.add(new Vector(100, 100));
-        render(arrlist);
     }
 
 // main -> launch calls start
     public static void main(String[] args) {
         launch(args);
+        Physics.makep1();
+        Physics.makep2();
+        Physics.makep3();
+        while (true) {
+            render(Physics.method());
+        }
     }
 }

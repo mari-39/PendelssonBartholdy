@@ -33,6 +33,7 @@ return res;
 
 public static float betr(Vector a) {
     float res = (float) Math.sqrt(Math.pow(a.x, 2) + Math.pow(a.y, 2));
+    return res;
 }
 
 public static float dist_betr(Vector a, Vector b) {
