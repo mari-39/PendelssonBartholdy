@@ -1,5 +1,6 @@
 package src;
 // import javafx
+import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -35,17 +36,19 @@ public class Felix extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         stage.setScene(new Scene(createContent(), 300, 300));
-        stage.show(); // open window
+        stage.show();
+        Physics.makep1();
+        Physics.makep2();
+        Physics.makep3();
+        new AnimationTimer() {
+            @Override public void handle(long currentNanoTime) {
+                render(Physics.method());
+            }
+        }.start();// open window
     }
 
 // main -> launch calls start
     public static void main(String[] args) {
         launch(args);
-        Physics.makep1();
-        Physics.makep2();
-        Physics.makep3();
-        while (true) {
-            render(Physics.method());
-        }
     }
 }

@@ -4,16 +4,17 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class DistanceConstraint extends Constraints {
-    public static final float fixedDist = 25F;
+    public float fixedDist;
     public Particle p1, p2; // abstract classes have no fields in that sense
 //    public ArrayList<Particle> particles;
 //    public ArrayList<Vector> dist_vecs = new ArrayList<>();
      // same here
 
 
-    public DistanceConstraint(Particle p1, Particle p2) {
+    public DistanceConstraint(Particle p1, Particle p2, float fixedDist) {
         this.p1 = p1;
         this.p2 = p2;
+        this.fixedDist = fixedDist;
     }
 
     @Override
@@ -25,11 +26,11 @@ public class DistanceConstraint extends Constraints {
             return;
         } else {
                 float offset = Math.abs(currDist - fixedDist);
-
+                System.out.println(offset);
                 p1.posn = Vector.vector_add(p1.posn,
-                        Vector.skalar_mult(Vector.norm(dist_vec), - offset * (p1.mass / mass_comp)));
+                        Vector.skalar_mult(Vector.norm(dist_vec), - offset * (p2.mass / mass_comp)));
                 p2.posn = Vector.vector_add(p2.posn,
-                        Vector.skalar_mult(Vector.norm(dist_vec), offset * p2.mass / mass_comp));
+                        Vector.skalar_mult(Vector.norm(dist_vec), offset * p1.mass / mass_comp));
         }
     }
 }
