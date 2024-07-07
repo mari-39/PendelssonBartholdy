@@ -37,9 +37,9 @@ public class Felix extends Application {
     public void start(Stage stage) throws Exception {
         stage.setScene(new Scene(createContent(), 600, 600));
         stage.show();
-        Physics.makep1();
-        Physics.makep2();
-        Physics.makep3();
+
+        Physics.initParticles();
+
         new AnimationTimer() {
             @Override public void handle(long currentNanoTime) {
                 render(Physics.method());
