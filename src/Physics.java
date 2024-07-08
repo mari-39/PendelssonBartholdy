@@ -20,8 +20,8 @@ public class Physics {
         particle3.mass = 1f;
 
         particle1.posn = new Vector(300, 300);
-        particle2.posn = new Vector(350, 300);
-        particle3.posn = new Vector(400, 300);
+        particle2.posn = new Vector(300.01f, 250);
+        particle3.posn = new Vector(300, 200);
 
         particle1.oldPosn = particle1.posn;
         particle2.oldPosn = particle2.posn;
