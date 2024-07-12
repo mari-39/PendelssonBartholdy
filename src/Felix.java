@@ -21,15 +21,14 @@ public class Felix extends Application {
         GraphicsContext contxt = canvas.getGraphicsContext2D();
         contxt.clearRect(0, 0, 600, 600);
         contxt.setFill(Color.BLUE);
-        int rad = 30;
-        for (int i = 0; i < input.size(); i++) {
-            contxt.fillOval(input.get(i).x, input.get(i).y, rad / 2, rad / 2);
+        int rad = 7;
+        for (Vector vector : input) {
+            contxt.fillOval(vector.x, vector.y, rad * 2, rad * 2);
         }
     }
 // make StackPane
     private Parent createContent() {
-        StackPane pane = new StackPane(canvas);
-        return pane;
+        return new StackPane(canvas);
     }
 
     // make GUI and render Positions of Particles from ArrayList<Vector> arrlist

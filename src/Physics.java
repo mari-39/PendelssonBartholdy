@@ -1,69 +1,55 @@
 package src;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class Physics {
     public static final Vector gravity = new Vector(0, 9.8066F);
     public static final float deltaT = 0.1F;
-    static ArrayList<Particle> p = new ArrayList<>();
-    static ArrayList<Constraints> c = new ArrayList<>();
+    static ArrayList<Particle> particles = new ArrayList<>();
+    static ArrayList<Constraint> constraints = new ArrayList<>();
 
 
     public static void initParticles()
     {
-        Particle particle1 = new Particle();
-        Particle particle2 = new Particle();
-        Particle particle3 = new Particle();
+        Particle particle1 = new Particle(300, 300, 900000f);
+        Particle particle2 = new Particle(300.01f, 250, 1);
+        Particle particle3 = new Particle(300, 200, 1);
 
-        particle1.mass = 900000f;
-        particle2.mass = 1f;
-        particle3.mass = 1f;
-
-        particle1.posn = new Vector(300, 300);
-        particle2.posn = new Vector(300.01f, 250);
-        particle3.posn = new Vector(300, 200);
-
-        particle1.oldPosn = particle1.posn;
-        particle2.oldPosn = particle2.posn;
-        particle3.oldPosn = particle3.posn;
-
-        p.add(particle1);
-        p.add(particle2);
-        p.add(particle3);
+        particles.add(particle1);
+        particles.add(particle2);
+        particles.add(particle3);
 
         DistanceConstraint constraint12 =
-                new DistanceConstraint(particle1, particle2, Vector.dist_betr(particle1.posn, particle2.posn));
+                new DistanceConstraint(particle1, particle2, particle1.posn.dist(particle2.posn));
         DistanceConstraint constraint23 =
-                new DistanceConstraint(particle2, particle3, Vector.dist_betr(particle2.posn, particle3.posn));
+                new DistanceConstraint(particle2, particle3, particle2.posn.dist(particle3.posn));
 
-        c.add(constraint12);
-        c.add(constraint23);
+        Particle part4 = new Particle(300, 300, 1);
+        particles.add(part4);
+        BoxConstraint boxConstraint = new BoxConstraint(part4, 200, 400, 400, 200);
+        CollisionConstraint collisionConstraint = new CollisionConstraint(particle3, part4);
+
+        constraints.add(constraint12);
+        constraints.add(constraint23);
+        constraints.add(boxConstraint);
+        constraints.add(collisionConstraint);
     }
 
     public static ArrayList<Vector> method() {
-        for (int j = 0; j < p.size(); j++) {
-            Particle temp = p.get(j);
-            temp.move(deltaT);
+        // Move all particles one step
+        for (Particle particle : particles) {
+            particle.move(deltaT);
         }
-        // NO, use the result of move in solve !
-        // do I need this ?
 
-        ArrayList<Vector> result = new ArrayList<>();
+        // Solve all constraints multiple times (converges to optimal solution)
         for (int i = 0; i < 20; i++) {
-            for (int l = 0; l < c.size(); l++) {
-                c.get(l).solve();
+            for (Constraint constraint : constraints) {
+                constraint.solve();
             }
         }
-        result.add(p.get(0).posn);
-        result.add(p.get(1).posn);
-        result.add(p.get(2).posn);
-        return result;
+
+        // Map List of Particles to list of Positions of those particles and return
+        return particles.stream().map((particle) -> particle.posn).collect(Collectors.toCollection(ArrayList::new));
     }
 }
-    // move - Method should be called here
-    // solve method should be called after move (several times)
-
-
-
-
-

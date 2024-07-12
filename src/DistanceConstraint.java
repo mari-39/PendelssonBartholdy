@@ -1,15 +1,11 @@
 package src;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
+public class DistanceConstraint extends Constraint {
+    private final float fixedDist;
 
-public class DistanceConstraint extends Constraints {
-    public float fixedDist;
-    public Particle p1, p2; // abstract classes have no fields in that sense
-//    public ArrayList<Particle> particles;
-//    public ArrayList<Vector> dist_vecs = new ArrayList<>();
-     // same here
-
+    // Particles that are processed by distanceconstraint
+    private final Particle p1;
+    private final Particle p2;
 
     public DistanceConstraint(Particle p1, Particle p2, float fixedDist) {
         this.p1 = p1;
@@ -17,22 +13,15 @@ public class DistanceConstraint extends Constraints {
         this.fixedDist = fixedDist;
     }
 
+    // Offset particles of constraint relative to their mass so that the constraint is resolved.
     @Override
     public void solve() {
-        Vector dist_vec = Vector.vector_sub(p1.posn, p2.posn);
-        float currDist = Vector.dist_betr(p1.posn, p2.posn);
-        float mass_comp = p1.mass + p2.mass;
-        if (currDist == fixedDist) {
-            return;
-        } else {
-                float offset = currDist - fixedDist;
-                Vector v = Vector.skalar_mult(Vector.norm(dist_vec), - offset * (p2.mass / mass_comp));
-                System.out.println(v.x + " : " + v.y);
-                System.out.println(offset);
-                p1.posn = Vector.vector_add(p1.posn,
-                        Vector.skalar_mult(Vector.norm(dist_vec), - offset * (p2.mass / mass_comp)));
-                p2.posn = Vector.vector_add(p2.posn,
-                        Vector.skalar_mult(Vector.norm(dist_vec), offset * p1.mass / mass_comp));
-        }
+        Vector direction = p1.posn.sub(p2.posn).normalized();
+        float currDist = p1.posn.dist(p2.posn);
+        float totalMass = p1.mass + p2.mass;
+
+        float error = currDist - this.fixedDist;
+        p1.posn = p1.posn.add(direction.times(- error * (p2.mass / totalMass)));
+        p2.posn = p2.posn.add(direction.times(error * (p1.mass / totalMass)));
     }
 }

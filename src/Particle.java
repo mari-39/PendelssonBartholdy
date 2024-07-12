@@ -1,16 +1,35 @@
 package src;
 
 public class Particle {
+
+    public String color = "#ff0033";
+    public float radius = 7;
     public float mass;
     public Vector oldPosn;
     public Vector posn;
-    public Vector vel;
+
+    public Particle(Vector posn, float mass)
+    {
+        this.mass = mass;
+        this.posn = posn;
+        this.oldPosn = posn;
+    }
+
+    public Particle(float x, float y, float mass)
+    {
+        this(new Vector(x, y), mass);
+    }
 
     public void move(float deltaT) {
-        Vector a = Vector.skalar_mult(Physics.gravity, 1/mass);
-        vel = Vector.skalar_mult(Vector.vector_sub(posn, oldPosn), 1/deltaT);
-        vel = Vector.vector_add(vel, Vector.skalar_mult(a, deltaT));
+        // This line is totally physically correct, TRUST.
+        Vector acceleration = Physics.gravity.times(1/mass);
+
+        // Calculate Velocity based on last frame and Forces
+        Vector vel = posn.sub(oldPosn).times(1/deltaT);
+        vel = vel.add(acceleration.times(deltaT));
+
+        // Store old Position for next frame and move particle
         oldPosn = posn;
-        posn = Vector.vector_add(posn, Vector.skalar_mult(vel, deltaT));
+        posn = posn.add(vel.times(deltaT));
     }
 }
