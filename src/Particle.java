@@ -2,7 +2,7 @@ package src;
 
 public class Particle {
 
-    public String color = "#ff0033";
+    public String color = "#990077";
     public float radius = 7;
     public float mass;
     public Vector oldPosn;
@@ -22,7 +22,7 @@ public class Particle {
 
     public void move(float deltaT) {
         // This line is totally physically correct, TRUST.
-        Vector acceleration = Physics.gravity.times(1/mass);
+        Vector acceleration = Physics.gravity;
 
         // Calculate Velocity based on last frame and Forces
         Vector vel = posn.sub(oldPosn).times(1/deltaT);

@@ -3,9 +3,8 @@ package src;
 public class DistanceConstraint extends Constraint {
     private final float fixedDist;
 
-    // Particles that are processed by distanceconstraint
-    private final Particle p1;
-    private final Particle p2;
+    final Particle p1;
+    final Particle p2;
 
     public DistanceConstraint(Particle p1, Particle p2, float fixedDist) {
         this.p1 = p1;

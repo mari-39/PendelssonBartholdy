@@ -4,9 +4,9 @@ import javax.swing.*;
 
 public class BoxConstraint extends Constraint {
 
-    private final Particle particle;
-    private final Vector corner1;
-    private final Vector corner2;
+    final Particle particle;
+    final Vector corner1;
+    final Vector corner2;
 
     public BoxConstraint(Particle particle, Vector corner1, Vector corner2) {
         this.particle = particle;

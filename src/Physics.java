@@ -1,13 +1,18 @@
 package src;
 
+import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
+
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 public class Physics {
     public static final Vector gravity = new Vector(0, 9.8066F);
-    public static final float deltaT = 0.1F;
+    public static final float deltaT = 0.003F;
     static ArrayList<Particle> particles = new ArrayList<>();
     static ArrayList<Constraint> constraints = new ArrayList<>();
+
+    // will be cleared every frame. for temporary constraints
+    static ArrayList<Constraint> dynamicConstraints = new ArrayList<>();
 
 
     public static void initParticles()
@@ -30,26 +35,31 @@ public class Physics {
         BoxConstraint boxConstraint = new BoxConstraint(part4, 200, 400, 400, 200);
         CollisionConstraint collisionConstraint = new CollisionConstraint(particle3, part4);
 
+        RubberbandConstraint fixedParticleConstraint = new RubberbandConstraint(particle1, particle1.posn, 0.01f);
+
         constraints.add(constraint12);
         constraints.add(constraint23);
         constraints.add(boxConstraint);
         constraints.add(collisionConstraint);
+        constraints.add(fixedParticleConstraint);
     }
 
-    public static ArrayList<Vector> method() {
+    public static ArrayList<Particle> method() {
         // Move all particles one step
         for (Particle particle : particles) {
             particle.move(deltaT);
         }
 
         // Solve all constraints multiple times (converges to optimal solution)
+        dynamicConstraints.addAll(constraints);
         for (int i = 0; i < 20; i++) {
-            for (Constraint constraint : constraints) {
+            for (Constraint constraint : dynamicConstraints) {
                 constraint.solve();
             }
         }
+        dynamicConstraints.clear();
 
         // Map List of Particles to list of Positions of those particles and return
-        return particles.stream().map((particle) -> particle.posn).collect(Collectors.toCollection(ArrayList::new));
+        return particles;
     }
 }
