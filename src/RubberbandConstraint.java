@@ -17,7 +17,6 @@ public class RubberbandConstraint extends Constraint {
     @Override
     public void solve() {
         particle.posn = particle.posn.add(position.sub(particle.posn).times(stiffness));
-        particle.oldPosn = particle.posn;
     }
 
 }

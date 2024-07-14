@@ -7,6 +7,7 @@ public class Particle {
     public float mass;
     public Vector oldPosn;
     public Vector posn;
+    public Vector force = new Vector(0, 0);
 
     public Particle(Vector posn, float mass)
     {
@@ -22,7 +23,8 @@ public class Particle {
 
     public void move(float deltaT) {
         // This line is totally physically correct, TRUST.
-        Vector acceleration = Physics.gravity;
+        Vector acceleration = Physics.gravity.add(force.times(1/mass));
+        force = new Vector(0, 0);
 
         // Calculate Velocity based on last frame and Forces
         Vector vel = posn.sub(oldPosn).times(1/deltaT);

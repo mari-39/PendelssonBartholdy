@@ -37,4 +37,9 @@ public class Vector {
     public Vector normalized() {
         return this.times(1/this.abs());
     }
+
+    public Vector complexTimes(Vector other)
+    {
+        return new Vector(this.x*other.x - this.y*other.y, this.x*other.y + this.y*other.x);
+    }
 }
